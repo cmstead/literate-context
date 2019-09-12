@@ -15,6 +15,10 @@ function documentBuilder () {
             } else if(node.type === 'directive' && node.subtype === 'tests') {
                 const childDocument = buildDocumentText(node.children);
 
+                if(childDocument.tests.length > 0) {
+                    throw new Error('Test directives cannot be nested');
+                }
+
                 documentContent.tests = documentContent.tests.concat(childDocument.code);
                 documentContent.context = documentContent.context.concat(childDocument.context);
             }

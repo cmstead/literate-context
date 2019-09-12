@@ -17,22 +17,17 @@ function documentParser(
         return sourceLines.shift();
     }
 
-    function blockBuilderFactory(type, endPattern) {
-        return function (sourceLines) {
-            let captureBlock = captureBlockFactory.getCaptureBlock(type);
-            let sourceLine = getNextLine(sourceLines);
+    function buildContextBlock(sourceLines) {
+        let captureBlock = captureBlockFactory.getCaptureBlock('context');
+        let sourceLine = getNextLine(sourceLines);
 
-            while (!endPattern.test(sourceLine)) {
-                captureBlock.addLine(sourceLine);
-                sourceLine = getNextLine(sourceLines);
-            }
-
-            return captureBlock;
+        while (!endContextBlock.test(sourceLine)) {
+            captureBlock.addLine(sourceLine);
+            sourceLine = getNextLine(sourceLines);
         }
 
+        return captureBlock;
     }
-
-    const buildContextBlock = blockBuilderFactory('context', endContextBlock)
 
     function buildDirectiveBlock(sourceLines) {
         const directiveBlock = captureBlockFactory.getCaptureBlock('directive');
