@@ -1,4 +1,4 @@
-function documentParser() {
+function documentParser(captureBlockFactory) {
 
     function getSourceLines(source) {
         return source.split(/\n/);
@@ -17,51 +17,38 @@ function documentParser() {
         };
     }
 
-    function captureCurrentBlock(type, currentBlock, nodes) {
-        if (currentBlock.length > 0) {
-            const currentText = currentBlock.join('\n');
+    function captureCurrentBlock(captureBlock, nodes) {
+        if (!captureBlock.isEmpty()) {
+            const currentText = captureBlock.getSourceText();
+            const type = captureBlock.type;
 
             nodes.push(buildNode(type, currentText));
+            captureBlock.reset();
         }
     }
 
+    function isContextBlock (captureBlock) {
+        return captureBlock.type === 'context';
+    }
+
     function buildNodes(sourceLines) {
-        let isContextBlock = false;
-        let isDirectiveBlock = false;
-        let directiveData = null;
         let nodes = [];
-        let currentBlock = [];
+        let captureBlock = captureBlockFactory.getCaptureBlock();
 
         for (let i = 0; i < sourceLines.length; i++) {
             const sourceLine = sourceLines[i];
 
-            if (!isContextBlock && startContextBlock.test(sourceLine)) {
-                captureCurrentBlock('code', currentBlock, nodes)
-
-                isContextBlock = true;
-                currentBlock = [];
-            } else if (isContextBlock && endContextBlock.test(sourceLine)) {
-                captureCurrentBlock('context', currentBlock, nodes)
-
-                isContextBlock = false;
-                currentBlock = [];
-            } else if(!isContextBlock && !isDirectiveBlock && startDirectiveBlock.test(sourceLine)) {
-                captureCurrentBlock('code', currentBlock, nodes)
-
-                isDirectiveBlock = true;
-                currentBlock = [];
-            } else if(!isContextBlock && isDirectiveBlock && endDirectiveBlock.test(sourceLine)) {
-                captureCurrentBlock('directive', currentBlock, nodes)
-
-                isDirectiveBlock = false;
-                currentBlock = [];
-            } 
-            else {
-                currentBlock.push(sourceLine);
+            if (!isContextBlock(captureBlock) && startContextBlock.test(sourceLine)) {
+                captureCurrentBlock(captureBlock, nodes)
+                captureBlock.setType('context');
+            } else if (isContextBlock(captureBlock) && endContextBlock.test(sourceLine)) {
+                captureCurrentBlock(captureBlock, nodes)
+            } else {
+                captureBlock.addLine(sourceLine);
             }
         }
 
-        captureCurrentBlock('code', currentBlock, nodes)
+        captureCurrentBlock(captureBlock, nodes);
 
         return nodes;
     }
