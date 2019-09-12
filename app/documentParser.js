@@ -1,17 +1,18 @@
 function documentParser(
     attributeParser,
-    captureBlockFactory
+    captureBlockFactory,
+    nodeFactory
 ) {
-
-    function getSourceLines(source) {
-        return source.split(/\n/);
-    }
 
     const startContextBlock = /^\s*\/\*\s+lctx\s*$/;
     const endContextBlock = /^\s*lctx\s+\*\/\s*$/;
 
     const startDirectiveBlock = /^\s*\/\* lctx-start\[.*\*\/$/;
     const endDirectiveBlock = /^\s*\/\* lctx-end\[.*\*\/$/;
+
+    function getSourceLines(source) {
+        return source.split(/\n/);
+    }
 
     function getSubtype(definitionLine) {
         return definitionLine.replace(/^\/\*.*lctx-start\[([^\]]+)\].*\*\/$/, '$1');
@@ -39,7 +40,7 @@ function documentParser(
             const currentText = captureBlock.getSourceText();
             const type = captureBlock.type;
 
-            nodes.push(buildNode(type, currentText, definitionLine));
+            nodes.push(nodeFactory.buildNode(type, currentText, definitionLine));
             captureBlock.reset();
         }
     }
