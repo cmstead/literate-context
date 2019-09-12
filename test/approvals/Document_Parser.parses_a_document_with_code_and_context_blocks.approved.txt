@@ -1,0 +1,18 @@
+[
+    {
+        "type": "context",
+        "value": "\nThis is some text. It is my text and it is nice.\n"
+    },
+    {
+        "type": "code",
+        "value": "\nfunction hello() {\n    console.log('Hello, World!');\n}\n"
+    },
+    {
+        "type": "context",
+        "value": "\nHere is some more text\n"
+    },
+    {
+        "type": "code",
+        "value": "\nconsole.log('This is also code.')"
+    }
+]

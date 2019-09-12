@@ -23,4 +23,13 @@ describe("Document Parser", function () {
 
         this.verify(prettyJson(parsedDocument));
     });
+
+    it("parses a document with code and context blocks", function () {
+        const source = documentReader('./fixtures/code-and-text.js');
+        const documentParser = childContainer.build('documentParser');
+
+        const parsedDocument = documentParser.parse(source);
+
+        this.verify(prettyJson(parsedDocument));
+    });
 });
