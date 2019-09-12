@@ -1,0 +1,11 @@
+{
+    "code": [
+        "\nfunction hello() {\n    console.log('Hello, World!');\n}\n",
+        "\nconsole.log('This is also code.')"
+    ],
+    "context": [
+        "\nThis is some text. It is my text and it is nice.\n",
+        "\nHere is some more text\n"
+    ],
+    "tests": []
+}

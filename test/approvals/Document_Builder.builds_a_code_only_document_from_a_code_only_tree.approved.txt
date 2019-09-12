@@ -1,0 +1,7 @@
+{
+    "code": [
+        "function hello() {\n    console.log('Hello, World!');\n}"
+    ],
+    "context": [],
+    "tests": []
+}

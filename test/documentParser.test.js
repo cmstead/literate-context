@@ -1,5 +1,3 @@
-// const { assert } = require('chai');
-
 const container = require('../container');
 const prettyJson = require('./utils/prettyJson');
 const documentReaderFactory = require('./utils/documentReaderFactory');

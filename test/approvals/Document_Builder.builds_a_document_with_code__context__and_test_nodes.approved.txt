@@ -1,0 +1,15 @@
+{
+    "code": [
+        "\nfunction add(a, b, ...args) {\n    return args.reduce((sum, next) => sum + next, a + b);\n}\n",
+        ""
+    ],
+    "context": [
+        "\nThis document contains tests, source code and contextual\ntext. The idea is, this is how we would write our tests\nand our production code. It would all live together!\n",
+        "\nNext is our test block. All tests would be written\nhere and then extracted and placed in a test file,\nfilling a template\n",
+        "   \n   Here's some more information that goes with tests\n   "
+    ],
+    "tests": [
+        "\ndescribe(\"Add behavior\", function(){",
+        "    it(\"sums a and b\", function(){\n        assert.equal(add(5, 6), 11);\n    });\n\n});\n"
+    ]
+}
