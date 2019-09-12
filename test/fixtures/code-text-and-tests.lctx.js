@@ -18,7 +18,7 @@ filling a template
 
 lctx */
 
-/* lctx-start tests api-reference-name: "codeTextAndTestCase" methods: [add] */
+/* lctx-start[tests] api-reference-name: "codeTextAndTestCase" methods: [add] */
 
 describe("Add behavior", function(){
    
@@ -28,4 +28,4 @@ describe("Add behavior", function(){
 
 });
 
-/* lctx-end tests */
+/* lctx-end[tests] */
