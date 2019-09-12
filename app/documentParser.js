@@ -13,6 +13,28 @@ function documentParser(
         return source.split(/\n/);
     }
 
+    function getNextLine(sourceLines) {
+        return sourceLines.shift();
+    }
+
+    function blockBuilderFactory(type, endPattern) {
+        return function (sourceLines) {
+            let captureBlock = captureBlockFactory.getCaptureBlock(type);
+            let sourceLine = getNextLine(sourceLines);
+
+            while (!endPattern.test(sourceLine)) {
+                captureBlock.addLine(sourceLine);
+                sourceLine = getNextLine(sourceLines);
+            }
+
+            return captureBlock;
+        }
+
+    }
+
+    const buildContextBlock = blockBuilderFactory('context', endContextBlock)
+    const buildDirectiveBlock = blockBuilderFactory('directive', endDirectiveBlock);
+
     function captureCurrentBlock(captureBlock, nodes, definitionLine) {
         if (!captureBlock.isEmpty()) {
             const currentText = captureBlock.getSourceText();
@@ -21,30 +43,6 @@ function documentParser(
             nodes.push(nodeFactory.buildNode(type, currentText, definitionLine));
             captureBlock.reset();
         }
-    }
-
-    function buildContextBlock(sourceLines) {
-        let captureBlock = captureBlockFactory.getCaptureBlock('context');
-        let sourceLine = sourceLines.shift();
-
-        while (!endContextBlock.test(sourceLine)) {
-            captureBlock.addLine(sourceLine);
-            sourceLine = sourceLines.shift();
-        }
-
-        return captureBlock;
-    }
-
-    function buildDirectiveBlock(sourceLines) {
-        let captureBlock = captureBlockFactory.getCaptureBlock('directive');
-        let sourceLine = sourceLines.shift();
-
-        while (!endDirectiveBlock.test(sourceLine)) {
-            captureBlock.addLine(sourceLine);
-            sourceLine = sourceLines.shift();
-        }
-
-        return captureBlock;
     }
 
     function blockCaptureFactory(captureBlock, nodes) {
@@ -56,6 +54,16 @@ function documentParser(
         }
     }
 
+    function getBlockBuilder(sourceLine) {
+        if (startContextBlock.test(sourceLine)) {
+            return buildContextBlock;
+        } else if (startDirectiveBlock.test(sourceLine)) {
+            return buildDirectiveBlock;
+        } else {
+            return null;
+        }
+    }
+
     function buildNodes(sourceLines) {
         let nodes = [];
         let captureBlock = captureBlockFactory.getCaptureBlock('code');
@@ -63,12 +71,11 @@ function documentParser(
         const captureContextBlocks = blockCaptureFactory(captureBlock, nodes);
 
         while (sourceLines.length > 0) {
-            const sourceLine = sourceLines.shift();
+            const sourceLine = getNextLine(sourceLines);
+            let buildBlock = getBlockBuilder(sourceLine);
 
-            if (startContextBlock.test(sourceLine)) {
-                captureContextBlocks(sourceLine, sourceLines, buildContextBlock);
-            } else if (startDirectiveBlock.test(sourceLine)) {
-                captureContextBlocks(sourceLine, sourceLines, buildDirectiveBlock);
+            if (buildBlock !== null) {
+                captureContextBlocks(sourceLine, sourceLines, buildBlock);
             } else {
                 captureBlock.addLine(sourceLine);
             }
