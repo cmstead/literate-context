@@ -1,0 +1,4 @@
+{
+    "type": "code",
+    "value": "function hello() {\n    console.log('Hello, World!');\n}"
+}

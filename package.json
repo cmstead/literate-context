@@ -1,30 +1,45 @@
 {
-  "name": "literate-context",
-  "version": "1.0.0",
-  "description": "Context-driven programming inspired by Knuth's literate programming",
-  "main": "index.js",
-  "scripts": {
-    "test": "node ./node_modules/mocha/bin/mocha ./test/**/*.test.js"
-  },
-  "keywords": [
-    "literate",
-    "programming",
-    "context",
-    "driven",
-    "programming",
-    "agile",
-    "development"
-  ],
-  "author": "Chris Stead",
-  "license": "MPL-2.0",
-  "devDependencies": {
-    "approvals": "^3.0.5",
-    "approvals-config-factory": "^1.0.0",
-    "chai": "^4.2.0",
-    "chai-verify": "^1.3.0",
-    "mocha": "^6.2.0"
-  },
-  "dependencies": {
-    "dject": "^1.14.2"
-  }
+    "name": "literate-context",
+    "version": "1.0.0",
+    "description": "Context-driven programming inspired by Knuth's literate programming",
+    "main": "index.js",
+    "scripts": {
+        "test": "npm run clean-approvals && npm run test-only",
+        "test-only": "node ./node_modules/nanocommit/",
+        "clean-approvals": "node ./scripts/clean-approvals.js ./test/approvals/*.txt.orig"
+    },
+    "keywords": [
+        "literate",
+        "programming",
+        "context",
+        "driven",
+        "programming",
+        "agile",
+        "development"
+    ],
+    "author": "Chris Stead",
+    "license": "MPL-2.0",
+    "devDependencies": {
+        "approvals": "^3.0.5",
+        "approvals-config-factory": "^1.0.0",
+        "chai": "^4.2.0",
+        "chai-verify": "^1.3.0",
+        "mocha": "^6.2.0",
+        "nanocommit": "^1.12.0"
+    },
+    "dependencies": {
+        "dject": "^1.14.2"
+    },
+    "nanocommit": {
+        "testCommand": "node ./node_modules/mocha/bin/mocha ./test/**/*.test.js",
+        "blindCommit": true,
+        "annotations": "nanocommit",
+        "watchFiles": [
+            "./test/**/*.test.js",
+            "./app/**/*.js"
+        ],
+        "defaultCommandArgs": null,
+        "commitMessage": null,
+        "customAnnotations": null
+    }
 }
