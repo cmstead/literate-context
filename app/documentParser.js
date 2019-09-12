@@ -35,12 +35,18 @@ function documentParser(
     const buildContextBlock = blockBuilderFactory('context', endContextBlock)
     const buildDirectiveBlock = blockBuilderFactory('directive', endDirectiveBlock);
 
+    function buildNodeFromCapture(captureBlock, definitionLine) {
+        const currentText = captureBlock.getSourceText();
+        const type = captureBlock.type;
+
+        return nodeFactory.buildNode(type, currentText, definitionLine);
+    }
+
     function captureCurrentBlock(captureBlock, nodes, definitionLine) {
         if (!captureBlock.isEmpty()) {
-            const currentText = captureBlock.getSourceText();
-            const type = captureBlock.type;
-
-            nodes.push(nodeFactory.buildNode(type, currentText, definitionLine));
+            const captureNode = buildNodeFromCapture(captureBlock, definitionLine);
+        
+            nodes.push(captureNode);
             captureBlock.reset();
         }
     }
