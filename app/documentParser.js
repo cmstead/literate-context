@@ -1,4 +1,7 @@
-function documentParser(captureBlockFactory) {
+function documentParser(
+    attributeParser,
+    captureBlockFactory
+) {
 
     function getSourceLines(source) {
         return source.split(/\n/);
@@ -56,7 +59,7 @@ function documentParser(captureBlockFactory) {
             : null;
 
         const attributes = definitionLine !== ''
-            ? getAttributes(definitionLine)
+            ? attributeParser.parseAttributes(definitionLine)
             : null;
 
         return {
