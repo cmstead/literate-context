@@ -36,28 +36,28 @@ function documentParser(
 
     function buildDirectiveBlock(sourceLines) {
         const directiveBlock = captureBlockFactory.getCaptureBlock('directive');
-        // let captureBlock = captureBlockFactory.getCaptureBlock('code');
+        let captureBlock = captureBlockFactory.getCaptureBlock('code');
 
         let sourceLine = getNextLine(sourceLines);
 
         while (!endDirectiveBlock.test(sourceLine)) {
 
-            if (false && startContextBlock.test(sourceLine)) {
-                // const contextBlock = buildContextBlock(sourceLines);
+            if (startContextBlock.test(sourceLine)) {
+                const contextBlock = buildContextBlock(sourceLines);
 
-                // captureCurrentBlock(captureBlock, directiveBlock.children, sourceLine)
-                // captureCurrentBlock(contextBlock, directiveBlock.children, sourceLine)
+                captureCurrentBlock(captureBlock, directiveBlock.children, sourceLine)
+                captureCurrentBlock(contextBlock, directiveBlock.children, sourceLine)
 
-                // captureBlock = captureBlockFactory.getCaptureBlock('code');
+                captureBlock = captureBlockFactory.getCaptureBlock('code');
             } else {
-                directiveBlock.addLine(sourceLine);
-                sourceLine = getNextLine(sourceLines);
+                captureBlock.addLine(sourceLine);
             }
+            sourceLine = getNextLine(sourceLines);
         }
 
-        // if(!captureBlock.isEmpty()) {
-        //     captureCurrentBlock(captureBlock, directiveBlock.children, sourceLine)
-        // }
+        if(!captureBlock.isEmpty()) {
+            captureCurrentBlock(captureBlock, directiveBlock.children, sourceLine)
+        }
 
         return directiveBlock;
     }

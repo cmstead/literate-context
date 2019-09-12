@@ -20,7 +20,7 @@ function captureBlockFactory () {
         },
 
         isEmpty: function() {
-            return this.block.length === 0;
+            return this.block.length === 0 && this.children.length === 0;
         }
     };
 

@@ -30,13 +30,35 @@
     {
         "type": "directive",
         "subtype": "tests",
-        "value": "\ndescribe(\"Add behavior\", function(){\n   /* lctx\n   \n   Here's some more information that goes with tests\n   \n   lctx */\n    it(\"sums a and b\", function(){\n        assert.equal(add(5, 6), 11);\n    });\n\n});\n",
+        "value": "",
         "attributes": {
             "api-reference-name": "codeTextAndTestCase",
             "methods": [
                 "add"
             ]
         },
-        "children": []
+        "children": [
+            {
+                "type": "code",
+                "subtype": null,
+                "value": "\ndescribe(\"Add behavior\", function(){",
+                "attributes": null,
+                "children": []
+            },
+            {
+                "type": "context",
+                "subtype": null,
+                "value": "   \n   Here's some more information that goes with tests\n   ",
+                "attributes": null,
+                "children": []
+            },
+            {
+                "type": "code",
+                "subtype": null,
+                "value": "    it(\"sums a and b\", function(){\n        assert.equal(add(5, 6), 11);\n    });\n\n});\n",
+                "attributes": null,
+                "children": []
+            }
+        ]
     }
 ]
