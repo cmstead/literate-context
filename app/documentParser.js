@@ -48,14 +48,22 @@ function documentParser(captureBlockFactory) {
         return attributes;
     }
 
-    function buildNode(type, text, definitionLine) {
-        const attributes = typeof definitionLine === 'string'
+    function getSubtype(definitionLine) {
+        return definitionLine.replace(/^\/\*.*lctx-start\[([^\]]+)\].*\*\/$/, '$1');
+    }
+
+    function buildNode(type, text, definitionLine = '') {
+        const subtype = definitionLine !== ''
+            ? getSubtype(definitionLine)
+            : null;
+
+        const attributes = definitionLine !== ''
             ? getAttributes(definitionLine)
             : null;
 
         return {
             type: type,
-            subtype: null,
+            subtype: subtype,
             value: text,
             attributes: attributes
         };

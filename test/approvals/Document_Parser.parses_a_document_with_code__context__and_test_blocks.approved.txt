@@ -25,7 +25,7 @@
     },
     {
         "type": "directive",
-        "subtype": null,
+        "subtype": "tests",
         "value": "\ndescribe(\"Add behavior\", function(){\n   \n    it(\"sums a and b\", function(){\n        assert.equal(add(5, 6), 11);\n    });\n\n});\n",
         "attributes": {
             "api-reference-name": "codeTextAndTestCase",
