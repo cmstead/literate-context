@@ -1,5 +1,4 @@
 function documentParser(
-    attributeParser,
     captureBlockFactory,
     nodeFactory
 ) {
@@ -12,27 +11,6 @@ function documentParser(
 
     function getSourceLines(source) {
         return source.split(/\n/);
-    }
-
-    function getSubtype(definitionLine) {
-        return definitionLine.replace(/^\/\*.*lctx-start\[([^\]]+)\].*\*\/$/, '$1');
-    }
-
-    function buildNode(type, text, definitionLine = '') {
-        const subtype = definitionLine !== ''
-            ? getSubtype(definitionLine)
-            : null;
-
-        const attributes = definitionLine !== ''
-            ? attributeParser.parseAttributes(definitionLine)
-            : null;
-
-        return {
-            type: type,
-            subtype: subtype,
-            value: text,
-            attributes: attributes
-        };
     }
 
     function captureCurrentBlock(captureBlock, nodes, definitionLine) {
@@ -69,23 +47,30 @@ function documentParser(
         return captureBlock;
     }
 
+
+
     function buildNodes(sourceLines) {
         let nodes = [];
         let captureBlock = captureBlockFactory.getCaptureBlock('code');
+
+        function captureContextBlocks(sourceLines, extractBlock) {
+            captureCurrentBlock(captureBlock, nodes)
+    
+            const extractedBlock = extractBlock(sourceLines);
+            captureCurrentBlock(extractedBlock, nodes);
+        }
+    
 
         while (sourceLines.length > 0) {
             const sourceLine = sourceLines.shift();
 
             if (startContextBlock.test(sourceLine)) {
-                captureCurrentBlock(captureBlock, nodes)
-
-                const contextBlock = buildContextBlock(sourceLines, sourceLine);
-                captureCurrentBlock(contextBlock, nodes);
+                captureContextBlocks(sourceLines, buildContextBlock);
             } else if (startDirectiveBlock.test(sourceLine)) {
                 captureCurrentBlock(captureBlock, nodes);
 
-                const directiveBlock = buildDirectiveBlock(sourceLines);
-                captureCurrentBlock(directiveBlock, nodes, sourceLine);
+                const extractedBlock = buildDirectiveBlock(sourceLines);
+                captureCurrentBlock(extractedBlock, nodes, sourceLine);
             } else {
                 captureBlock.addLine(sourceLine);
             }
