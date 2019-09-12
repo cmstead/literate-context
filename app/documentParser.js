@@ -31,18 +31,30 @@ function documentParser(captureBlockFactory) {
         return captureBlock.type === 'context';
     }
 
+    function buildContextBlock(sourceLines) {
+        let captureBlock = captureBlockFactory.getCaptureBlock('context');
+        let sourceLine = sourceLines.shift();
+
+        while(!endContextBlock.test(sourceLine)) {
+            captureBlock.addLine(sourceLine);
+            sourceLine = sourceLines.shift();
+        }
+
+        return captureBlock;
+    }
+
     function buildNodes(sourceLines) {
         let nodes = [];
-        let captureBlock = captureBlockFactory.getCaptureBlock();
+        let captureBlock = captureBlockFactory.getCaptureBlock('code');
 
         while(sourceLines.length > 0) {
             const sourceLine = sourceLines.shift();
 
             if (!isContextBlock(captureBlock) && startContextBlock.test(sourceLine)) {
                 captureCurrentBlock(captureBlock, nodes)
-                captureBlock.setType('context');
-            } else if (isContextBlock(captureBlock) && endContextBlock.test(sourceLine)) {
-                captureCurrentBlock(captureBlock, nodes)
+
+                const contextBlock = buildContextBlock(sourceLines);
+                captureCurrentBlock(contextBlock, nodes);
             } else {
                 captureBlock.addLine(sourceLine);
             }

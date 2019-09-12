@@ -1,8 +1,8 @@
 function captureBlockFactory () {
     
-    function CaptureBlock() {
+    function CaptureBlock(type) {
         this.block = [];
-        this.type = 'code';
+        this.type = type;
     }
 
     CaptureBlock.prototype = {
@@ -10,13 +10,8 @@ function captureBlockFactory () {
             this.block.push(sourceLine);
         },
 
-        setType: function(type) {
-            this.type = type;
-        },
-
         reset: function() {
             this.block = [];
-            this.type = 'code'
         },
 
         getSourceText: function() {
@@ -28,8 +23,8 @@ function captureBlockFactory () {
         }
     };
 
-    function getCaptureBlock() {
-        return new CaptureBlock();
+    function getCaptureBlock(type) {
+        return new CaptureBlock(type);
     }
 
     return {
