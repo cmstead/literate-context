@@ -7,13 +7,14 @@ function documentParser(captureBlockFactory) {
     const startContextBlock = /^\s*\/\*\s+lctx\s*$/;
     const endContextBlock = /^\s*lctx\s+\*\/\s*$/;
 
-    const startDirectiveBlock = /^\s*\/\* lctx-start [^*]\*\/\s*$/;
-    const endDirectiveBlock = /^\s*\/\* lctx-end [^*]\*\/\s*$/;
+    const startDirectiveBlock = /^\s*\/\* lctx-start .*\*\/$/;
+    const endDirectiveBlock = /^\s*\/\* lctx-end .*\*\/$/;
 
     function buildNode(type, text) {
         return {
             type: type,
-            value: text
+            value: text,
+            attributes: null
         };
     }
 
@@ -25,10 +26,6 @@ function documentParser(captureBlockFactory) {
             nodes.push(buildNode(type, currentText));
             captureBlock.reset();
         }
-    }
-
-    function isContextBlock(captureBlock) {
-        return captureBlock.type === 'context';
     }
 
     function buildContextBlock(sourceLines) {
@@ -62,11 +59,19 @@ function documentParser(captureBlockFactory) {
         while (sourceLines.length > 0) {
             const sourceLine = sourceLines.shift();
 
+            console.log(sourceLine);
+            console.log(startDirectiveBlock.test(sourceLine));
+
             if (startContextBlock.test(sourceLine)) {
                 captureCurrentBlock(captureBlock, nodes)
 
                 const contextBlock = buildContextBlock(sourceLines, sourceLine);
                 captureCurrentBlock(contextBlock, nodes);
+            } else if(startDirectiveBlock.test(sourceLine)) {
+                captureCurrentBlock(captureBlock, nodes);
+
+                const directiveBlock = buildDirectiveBlock(sourceLines);
+                captureCurrentBlock(directiveBlock, nodes);
             } else {
                 captureBlock.addLine(sourceLine);
             }

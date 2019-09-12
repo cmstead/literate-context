@@ -1,18 +1,22 @@
 [
     {
         "type": "context",
-        "value": "\nThis is some text. It is my text and it is nice.\n"
+        "value": "\nThis is some text. It is my text and it is nice.\n",
+        "attributes": null
     },
     {
         "type": "code",
-        "value": "\nfunction hello() {\n    console.log('Hello, World!');\n}\n"
+        "value": "\nfunction hello() {\n    console.log('Hello, World!');\n}\n",
+        "attributes": null
     },
     {
         "type": "context",
-        "value": "\nHere is some more text\n"
+        "value": "\nHere is some more text\n",
+        "attributes": null
     },
     {
         "type": "code",
-        "value": "\nconsole.log('This is also code.')"
+        "value": "\nconsole.log('This is also code.')",
+        "attributes": null
     }
 ]

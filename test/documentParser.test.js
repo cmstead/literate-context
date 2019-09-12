@@ -33,7 +33,7 @@ describe("Document Parser", function () {
         this.verify(prettyJson(parsedDocument));
     });
 
-    it.skip("parses a document with code, context, and test blocks", function () {
+    it("parses a document with code, context, and test blocks", function () {
         const source = documentReader('./fixtures/code-text-and-tests.lctx.js');
         const documentParser = childContainer.build('documentParser');
 
