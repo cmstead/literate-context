@@ -1,7 +1,10 @@
 function documentParser(
+    blockTypes,
     captureBlockFactory,
     nodeFactory
 ) {
+
+    const { types } = blockTypes;
 
     const startContextBlock = /^\s*\/\*\s+lctx\s*$/;
     const endContextBlock = /^\s*lctx\s+\*\/\s*$/;
@@ -18,7 +21,7 @@ function documentParser(
     }
 
     function buildContextBlock(sourceLines) {
-        let captureBlock = captureBlockFactory.getCaptureBlock('context');
+        let captureBlock = captureBlockFactory.getCaptureBlock(types.context);
         let sourceLine = getNextLine(sourceLines);
 
         while (!endContextBlock.test(sourceLine)) {
@@ -30,8 +33,8 @@ function documentParser(
     }
 
     function buildDirectiveBlock(sourceLines) {
-        const directiveBlock = captureBlockFactory.getCaptureBlock('directive');
-        let captureBlock = captureBlockFactory.getCaptureBlock('code');
+        const directiveBlock = captureBlockFactory.getCaptureBlock(types.directive);
+        let captureBlock = captureBlockFactory.getCaptureBlock(types.code);
 
         let sourceLine = getNextLine(sourceLines);
 
@@ -43,7 +46,7 @@ function documentParser(
                 captureCurrentBlock(captureBlock, directiveBlock.children, sourceLine)
                 captureCurrentBlock(contextBlock, directiveBlock.children, sourceLine)
 
-                captureBlock = captureBlockFactory.getCaptureBlock('code');
+                captureBlock = captureBlockFactory.getCaptureBlock(types.code);
             } else {
                 captureBlock.addLine(sourceLine);
             }
@@ -95,7 +98,7 @@ function documentParser(
 
     function buildNodes(sourceLines) {
         let nodes = [];
-        let captureBlock = captureBlockFactory.getCaptureBlock('code');
+        let captureBlock = captureBlockFactory.getCaptureBlock(types.code);
 
         const captureContextBlocks = blockCaptureFactory(captureBlock, nodes);
 

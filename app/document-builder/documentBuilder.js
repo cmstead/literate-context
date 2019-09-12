@@ -1,5 +1,9 @@
-function documentBuilder () {
+function documentBuilder (
+    blockTypes
+) {
     
+    const { types, subtypes } = blockTypes;
+
     function buildDocumentText(parsedDocument) {
         const documentContent = {
             code: [],
@@ -8,11 +12,11 @@ function documentBuilder () {
         };
 
         parsedDocument.forEach(function(node) {
-            if(node.type === 'code') {
+            if(node.type === types.code) {
                 documentContent.code.push(node.value);
-            } else if(node.type === 'context') {
+            } else if(node.type === types.context) {
                 documentContent.context.push(node.value);
-            } else if(node.type === 'directive' && node.subtype === 'tests') {
+            } else if(node.type === types.directive && node.subtype === subtypes.tests) {
                 const childDocument = buildDocumentText(node.children);
 
                 if(childDocument.tests.length > 0) {
