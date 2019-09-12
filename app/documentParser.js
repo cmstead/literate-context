@@ -30,9 +30,6 @@ function documentParser() {
         for (let i = 0; i < sourceLines.length; i++) {
             const sourceLine = sourceLines[i];
 
-            console.log(sourceLine);
-            console.log(startContextBlock.test(sourceLine));
-
             if (!isContextBlock && startContextBlock.test(sourceLine)) {
                 captureCurrentBlock('code', currentBlock, nodes)
 
