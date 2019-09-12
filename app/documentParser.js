@@ -55,6 +55,7 @@ function documentParser(captureBlockFactory) {
 
         return {
             type: type,
+            subtype: null,
             value: text,
             attributes: attributes
         };
