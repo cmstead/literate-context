@@ -27,7 +27,7 @@ function documentParser(captureBlockFactory) {
         }
     }
 
-    function isContextBlock (captureBlock) {
+    function isContextBlock(captureBlock) {
         return captureBlock.type === 'context';
     }
 
@@ -35,7 +35,19 @@ function documentParser(captureBlockFactory) {
         let captureBlock = captureBlockFactory.getCaptureBlock('context');
         let sourceLine = sourceLines.shift();
 
-        while(!endContextBlock.test(sourceLine)) {
+        while (!endContextBlock.test(sourceLine)) {
+            captureBlock.addLine(sourceLine);
+            sourceLine = sourceLines.shift();
+        }
+
+        return captureBlock;
+    }
+
+    function buildDirectiveBlock(sourceLines, startLine) {
+        let captureBlock = captureBlockFactory.getCaptureBlock('directive');
+        let sourceLine = sourceLines.shift();
+
+        while (!endDirectiveBlock.test(sourceLine)) {
             captureBlock.addLine(sourceLine);
             sourceLine = sourceLines.shift();
         }
@@ -47,13 +59,13 @@ function documentParser(captureBlockFactory) {
         let nodes = [];
         let captureBlock = captureBlockFactory.getCaptureBlock('code');
 
-        while(sourceLines.length > 0) {
+        while (sourceLines.length > 0) {
             const sourceLine = sourceLines.shift();
 
-            if (!isContextBlock(captureBlock) && startContextBlock.test(sourceLine)) {
+            if (startContextBlock.test(sourceLine)) {
                 captureCurrentBlock(captureBlock, nodes)
 
-                const contextBlock = buildContextBlock(sourceLines);
+                const contextBlock = buildContextBlock(sourceLines, sourceLine);
                 captureCurrentBlock(contextBlock, nodes);
             } else {
                 captureBlock.addLine(sourceLine);
