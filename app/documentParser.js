@@ -53,11 +53,11 @@ function documentParser(
         let nodes = [];
         let captureBlock = captureBlockFactory.getCaptureBlock('code');
 
-        function captureContextBlocks(sourceLines, extractBlock) {
+        function captureContextBlocks(currentLine, sourceLines, extractBlock) {
             captureCurrentBlock(captureBlock, nodes)
     
             const extractedBlock = extractBlock(sourceLines);
-            captureCurrentBlock(extractedBlock, nodes);
+            captureCurrentBlock(extractedBlock, nodes, currentLine);
         }
     
 
@@ -65,12 +65,9 @@ function documentParser(
             const sourceLine = sourceLines.shift();
 
             if (startContextBlock.test(sourceLine)) {
-                captureContextBlocks(sourceLines, buildContextBlock);
+                captureContextBlocks(sourceLine, sourceLines, buildContextBlock);
             } else if (startDirectiveBlock.test(sourceLine)) {
-                captureCurrentBlock(captureBlock, nodes);
-
-                const extractedBlock = buildDirectiveBlock(sourceLines);
-                captureCurrentBlock(extractedBlock, nodes, sourceLine);
+                captureContextBlocks(sourceLine, sourceLines, buildDirectiveBlock);
             } else {
                 captureBlock.addLine(sourceLine);
             }

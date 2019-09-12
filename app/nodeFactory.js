@@ -1,11 +1,13 @@
-function nodeFactory (attributeParser) {
-    
+function nodeFactory(attributeParser) {
+
+    const subtypePattern = /^\/\*.*lctx-start\[([^\]]+)\].*\*\/$/;
+
     function getSubtype(definitionLine) {
-        return definitionLine.replace(/^\/\*.*lctx-start\[([^\]]+)\].*\*\/$/, '$1');
+        return definitionLine.replace(subtypePattern, '$1');
     }
 
     function buildNode(type, text, definitionLine = '') {
-        const subtype = definitionLine !== ''
+        const subtype = subtypePattern.test(definitionLine)
             ? getSubtype(definitionLine)
             : null;
 

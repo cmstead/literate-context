@@ -1,4 +1,4 @@
-function attributeParser () {
+function attributeParser() {
 
     const attributePattern = /([^\s]+:\s+"[^"]+")|([^\s]+:\s+\[[^\]]+\])/g;
     const stringPattern = /^"([^"]+)"$/;
@@ -21,9 +21,8 @@ function attributeParser () {
         return parse(attributeValue);
     }
 
-    function parseAttributes(definitionLine) {
-        return definitionLine
-            .match(attributePattern)
+    function resolveAttributeValues(attributeMatches) {
+        return attributeMatches
             .map(attribute => {
                 const [key, value] = attribute.split(': ');
 
@@ -34,6 +33,15 @@ function attributeParser () {
 
                 return attributeMap;
             }, {});
+    }
+
+    function parseAttributes(definitionLine) {
+        const attributeMatches = definitionLine
+            .match(attributePattern);
+
+        return attributeMatches !== null
+            ? resolveAttributeValues(attributeMatches)
+            : null;
     }
 
     return {
