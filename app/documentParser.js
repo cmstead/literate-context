@@ -47,19 +47,20 @@ function documentParser(
         return captureBlock;
     }
 
+    function blockCaptureFactory(captureBlock, nodes) {
+        return function (currentLine, sourceLines, extractBlock) {
+            captureCurrentBlock(captureBlock, nodes)
 
+            const extractedBlock = extractBlock(sourceLines);
+            captureCurrentBlock(extractedBlock, nodes, currentLine);
+        }
+    }
 
     function buildNodes(sourceLines) {
         let nodes = [];
         let captureBlock = captureBlockFactory.getCaptureBlock('code');
 
-        function captureContextBlocks(currentLine, sourceLines, extractBlock) {
-            captureCurrentBlock(captureBlock, nodes)
-    
-            const extractedBlock = extractBlock(sourceLines);
-            captureCurrentBlock(extractedBlock, nodes, currentLine);
-        }
-    
+        const captureContextBlocks = blockCaptureFactory(captureBlock, nodes);
 
         while (sourceLines.length > 0) {
             const sourceLine = sourceLines.shift();
