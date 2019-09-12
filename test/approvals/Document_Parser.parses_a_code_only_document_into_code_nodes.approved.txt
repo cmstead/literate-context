@@ -3,6 +3,7 @@
         "type": "code",
         "subtype": null,
         "value": "function hello() {\n    console.log('Hello, World!');\n}",
-        "attributes": null
+        "attributes": null,
+        "children": []
     }
 ]

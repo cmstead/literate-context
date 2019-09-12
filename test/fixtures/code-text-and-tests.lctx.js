@@ -21,7 +21,11 @@ lctx */
 /* lctx-start[tests] api-reference-name: "codeTextAndTestCase" methods: [add] */
 
 describe("Add behavior", function(){
+   /* lctx
    
+   Here's some more information that goes with tests
+   
+   lctx */
     it("sums a and b", function(){
         assert.equal(add(5, 6), 11);
     });

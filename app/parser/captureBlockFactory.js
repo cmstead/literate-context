@@ -2,6 +2,7 @@ function captureBlockFactory () {
     
     function CaptureBlock(type) {
         this.block = [];
+        this.children = [];
         this.type = type;
     }
 

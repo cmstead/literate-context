@@ -33,19 +33,47 @@ function documentParser(
     }
 
     const buildContextBlock = blockBuilderFactory('context', endContextBlock)
-    const buildDirectiveBlock = blockBuilderFactory('directive', endDirectiveBlock);
+
+    function buildDirectiveBlock(sourceLines) {
+        const directiveBlock = captureBlockFactory.getCaptureBlock('directive');
+        // let captureBlock = captureBlockFactory.getCaptureBlock('code');
+
+        let sourceLine = getNextLine(sourceLines);
+
+        while (!endDirectiveBlock.test(sourceLine)) {
+
+            if (false && startContextBlock.test(sourceLine)) {
+                // const contextBlock = buildContextBlock(sourceLines);
+
+                // captureCurrentBlock(captureBlock, directiveBlock.children, sourceLine)
+                // captureCurrentBlock(contextBlock, directiveBlock.children, sourceLine)
+
+                // captureBlock = captureBlockFactory.getCaptureBlock('code');
+            } else {
+                directiveBlock.addLine(sourceLine);
+                sourceLine = getNextLine(sourceLines);
+            }
+        }
+
+        // if(!captureBlock.isEmpty()) {
+        //     captureCurrentBlock(captureBlock, directiveBlock.children, sourceLine)
+        // }
+
+        return directiveBlock;
+    }
 
     function buildNodeFromCapture(captureBlock, definitionLine) {
+        const children = captureBlock.children;
         const currentText = captureBlock.getSourceText();
         const type = captureBlock.type;
 
-        return nodeFactory.buildNode(type, currentText, definitionLine);
+        return nodeFactory.buildNode(type, currentText, children, definitionLine);
     }
 
     function captureCurrentBlock(captureBlock, nodes, definitionLine) {
         if (!captureBlock.isEmpty()) {
             const captureNode = buildNodeFromCapture(captureBlock, definitionLine);
-        
+
             nodes.push(captureNode);
             captureBlock.reset();
         }

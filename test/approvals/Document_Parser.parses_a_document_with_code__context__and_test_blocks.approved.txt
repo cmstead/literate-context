@@ -3,35 +3,40 @@
         "type": "context",
         "subtype": null,
         "value": "\nThis document contains tests, source code and contextual\ntext. The idea is, this is how we would write our tests\nand our production code. It would all live together!\n",
-        "attributes": null
+        "attributes": null,
+        "children": []
     },
     {
         "type": "code",
         "subtype": null,
         "value": "\nfunction add(a, b, ...args) {\n    return args.reduce((sum, next) => sum + next, a + b);\n}\n",
-        "attributes": null
+        "attributes": null,
+        "children": []
     },
     {
         "type": "context",
         "subtype": null,
         "value": "\nNext is our test block. All tests would be written\nhere and then extracted and placed in a test file,\nfilling a template\n",
-        "attributes": null
+        "attributes": null,
+        "children": []
     },
     {
         "type": "code",
         "subtype": null,
         "value": "",
-        "attributes": null
+        "attributes": null,
+        "children": []
     },
     {
         "type": "directive",
         "subtype": "tests",
-        "value": "\ndescribe(\"Add behavior\", function(){\n   \n    it(\"sums a and b\", function(){\n        assert.equal(add(5, 6), 11);\n    });\n\n});\n",
+        "value": "\ndescribe(\"Add behavior\", function(){\n   /* lctx\n   \n   Here's some more information that goes with tests\n   \n   lctx */\n    it(\"sums a and b\", function(){\n        assert.equal(add(5, 6), 11);\n    });\n\n});\n",
         "attributes": {
             "api-reference-name": "codeTextAndTestCase",
             "methods": [
                 "add"
             ]
-        }
+        },
+        "children": []
     }
 ]
