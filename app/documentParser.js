@@ -35,8 +35,8 @@ function documentParser(captureBlockFactory) {
         let nodes = [];
         let captureBlock = captureBlockFactory.getCaptureBlock();
 
-        for (let i = 0; i < sourceLines.length; i++) {
-            const sourceLine = sourceLines[i];
+        while(sourceLines.length > 0) {
+            const sourceLine = sourceLines.shift();
 
             if (!isContextBlock(captureBlock) && startContextBlock.test(sourceLine)) {
                 captureCurrentBlock(captureBlock, nodes)
