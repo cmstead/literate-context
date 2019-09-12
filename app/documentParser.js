@@ -19,33 +19,31 @@ function documentParser(captureBlockFactory) {
     }
 
     function parseArray(attributeValue) {
-        const arrayValues = attributeValue
+        return attributeValue
             .replace(arrayPattern, '$1')
             .split(/,\s*/ig);
-
-        return arrayValues;
     }
 
     function parseValue(attributeValue) {
-        if (stringPattern.test(attributeValue)) {
-            return parseString(attributeValue);
-        } else {
-            return parseArray(attributeValue);
-        }
+        const isStringValue = stringPattern.test(attributeValue);
+        const parse = isStringValue ? parseString : parseArray;
+
+        return parse(attributeValue);
     }
 
     function getAttributes(definitionLine) {
-        const attributes = definitionLine
+        return definitionLine
             .match(attributePattern)
-            .map(attribute => attribute.split(': '))
-            .map(([key, value]) => [key, parseValue(value)])
-            .reduce(function(attributeMap, [key, value]) {
+            .map(attribute => {
+                const [key, value] = attribute.split(': ');
+
+                return [key, parseValue(value)];
+            })
+            .reduce(function (attributeMap, [key, value]) {
                 attributeMap[key] = value;
+
                 return attributeMap;
             }, {});
-
-
-        return attributes;
     }
 
     function getSubtype(definitionLine) {
