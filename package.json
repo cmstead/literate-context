@@ -1,7 +1,7 @@
 {
     "name": "literate-context",
     "version": "1.0.0",
-    "description": "Context-driven programming inspired by Knuth's literate programming",
+    "description": "Context-driven programming library inspired by Knuth's literate programming",
     "main": "index.js",
     "scripts": {
         "test": "npm run clean-approvals && npm run test-only",
@@ -9,13 +9,10 @@
         "clean-approvals": "node ./scripts/clean-approvals.js ./test/approvals/*.txt.orig"
     },
     "keywords": [
-        "literate",
-        "programming",
-        "context",
-        "driven",
-        "programming",
-        "agile",
-        "development"
+        "literate programming",
+        "context driven programming",
+        "behavior driven development",
+        "agile development"
     ],
     "author": "Chris Stead",
     "license": "MPL-2.0",
