@@ -21,7 +21,7 @@ describe("Document Builder", function () {
         const source = documentReader('./fixtures/code-only.ctx.js');
         const parsedDocument = documentParser.parse(source);
 
-        const documentContent = documentBuilder.buildDocumentText(parsedDocument);
+        const documentContent = documentBuilder.buildDocumentContent(parsedDocument);
 
         this.verify(prettyJson(documentContent));
     });
@@ -30,7 +30,7 @@ describe("Document Builder", function () {
         const source = documentReader('./fixtures/code-and-text.ctx.js');
         const parsedDocument = documentParser.parse(source);
 
-        const documentContent = documentBuilder.buildDocumentText(parsedDocument);
+        const documentContent = documentBuilder.buildDocumentContent(parsedDocument);
 
         this.verify(prettyJson(documentContent));
     });
@@ -39,7 +39,7 @@ describe("Document Builder", function () {
         const source = documentReader('./fixtures/code-text-and-tests.ctx.js');
         const parsedDocument = documentParser.parse(source);
 
-        const documentContent = documentBuilder.buildDocumentText(parsedDocument);
+        const documentContent = documentBuilder.buildDocumentContent(parsedDocument);
 
         this.verify(prettyJson(documentContent));
     });

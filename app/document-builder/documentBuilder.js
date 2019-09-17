@@ -12,7 +12,7 @@ function documentBuilder(
     }
 
     function buildTestContent(node, documentContent) {
-        const childDocument = buildDocumentText(node.children);
+        const childDocument = buildDocumentContent(node.children);
 
         throwOnNestedTests(childDocument)
 
@@ -21,7 +21,7 @@ function documentBuilder(
 
     }
 
-    function buildDocumentText(parsedDocument) {
+    function buildDocumentContent(parsedDocument) {
         const documentContent = documentTextContainerFactory.buildDocumentTextContainer();
 
         parsedDocument.forEach(function (node) {
@@ -38,7 +38,7 @@ function documentBuilder(
     }
 
     return {
-        buildDocumentText
+        buildDocumentContent: buildDocumentContent
     };
 }
 
