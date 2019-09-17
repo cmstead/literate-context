@@ -2,7 +2,7 @@ function nodeFactory(
     attributeParser
 ) {
 
-    const subtypePattern = /^\/\*.*lctx-start\[([^\]]+)\].*\*\/$/;
+    const subtypePattern = /^\/\*.*ctx-start\[([^\]]+)\].*\*\/$/;
 
     function getSubtype(definitionLine) {
         return definitionLine.replace(subtypePattern, '$1');

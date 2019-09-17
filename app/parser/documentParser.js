@@ -6,11 +6,13 @@ function documentParser(
 
     const { types } = blockTypes;
 
-    const startContextBlock = /^\s*\/\*\s+lctx\s*$/;
-    const endContextBlock = /^\s*lctx\s+\*\/\s*$/;
+    const startContextBlock = /^\s*\/\*\s+ctx\s*$/;
+    const endContextBlock = /^\s*ctx\s+\*\/\s*$/;
 
-    const startDirectiveBlock = /^\s*\/\* lctx-start\[.*\*\/$/;
-    const endDirectiveBlock = /^\s*\/\* lctx-end\[.*\*\/$/;
+    const singleLineContext = /^\s*\/\/\s+ctx\s+(.*)/;
+
+    const startDirectiveBlock = /^\s*\/\* ctx-start\[.*\*\/$/;
+    const endDirectiveBlock = /^\s*\/\* ctx-end\[.*\*\/$/;
 
     function getSourceLines(source) {
         return source.split(/\n/);
@@ -53,7 +55,7 @@ function documentParser(
             sourceLine = getNextLine(sourceLines);
         }
 
-        if(!captureBlock.isEmpty()) {
+        if (!captureBlock.isEmpty()) {
             captureCurrentBlock(captureBlock, directiveBlock.children, sourceLine)
         }
 
@@ -96,6 +98,14 @@ function documentParser(
         }
     }
 
+    function captureSingleLineContext(sourceLine, nodes) {
+        const tempCaptureBlock = captureBlockFactory.getCaptureBlock(types.context)
+
+        tempCaptureBlock.addLine(sourceLine.replace(singleLineContext, '$1'));
+
+        captureCurrentBlock(tempCaptureBlock, nodes, sourceLine);
+    }
+
     function buildNodes(sourceLines) {
         let nodes = [];
         let captureBlock = captureBlockFactory.getCaptureBlock(types.code);
@@ -106,7 +116,11 @@ function documentParser(
             const sourceLine = getNextLine(sourceLines);
             let buildBlock = getBlockBuilder(sourceLine);
 
-            if (buildBlock !== null) {
+            if (singleLineContext.test(sourceLine)) {
+                captureCurrentBlock(captureBlock, nodes);
+
+                captureSingleLineContext(sourceLine, nodes);
+            } else if (buildBlock !== null) {
                 captureContextBlocks(sourceLine, sourceLines, buildBlock);
             } else {
                 captureBlock.addLine(sourceLine);

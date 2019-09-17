@@ -14,7 +14,7 @@ describe("Document Parser", function () {
     });
 
     it("parses a code-only document into code nodes", function () {
-        const source = documentReader('./fixtures/code-only.lctx.js');
+        const source = documentReader('./fixtures/code-only.ctx.js');
         const documentParser = childContainer.build('documentParser');
 
         const parsedDocument = documentParser.parse(source);
@@ -23,7 +23,7 @@ describe("Document Parser", function () {
     });
 
     it("parses a document with code and context blocks", function () {
-        const source = documentReader('./fixtures/code-and-text.lctx.js');
+        const source = documentReader('./fixtures/code-and-text.ctx.js');
         const documentParser = childContainer.build('documentParser');
 
         const parsedDocument = documentParser.parse(source);
@@ -32,7 +32,7 @@ describe("Document Parser", function () {
     });
 
     it("parses a document with code, context, and test blocks", function () {
-        const source = documentReader('./fixtures/code-text-and-tests.lctx.js');
+        const source = documentReader('./fixtures/code-text-and-tests.ctx.js');
         const documentParser = childContainer.build('documentParser');
 
         const parsedDocument = documentParser.parse(source);

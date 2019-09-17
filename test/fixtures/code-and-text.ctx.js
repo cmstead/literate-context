@@ -1,17 +1,19 @@
-/* lctx
+/* ctx
 
 This is some text. It is my text and it is nice.
 
-lctx */
+ctx */
 
 function hello() {
     console.log('Hello, World!');
 }
 
-/* lctx
+/* ctx
 
 Here is some more text
 
-lctx */
+ctx */
+
+// ctx This is a one-liner
 
 console.log('This is also code.')

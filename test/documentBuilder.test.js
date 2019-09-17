@@ -18,7 +18,7 @@ describe("Document Builder", function () {
     });
 
     it("builds a code-only document from a code-only tree", function () {
-        const source = documentReader('./fixtures/code-only.lctx.js');
+        const source = documentReader('./fixtures/code-only.ctx.js');
         const parsedDocument = documentParser.parse(source);
 
         const documentContent = documentBuilder.buildDocumentText(parsedDocument);
@@ -27,7 +27,7 @@ describe("Document Builder", function () {
     });
 
     it("builds a document with code and context nodes", function () {
-        const source = documentReader('./fixtures/code-and-text.lctx.js');
+        const source = documentReader('./fixtures/code-and-text.ctx.js');
         const parsedDocument = documentParser.parse(source);
 
         const documentContent = documentBuilder.buildDocumentText(parsedDocument);
@@ -36,7 +36,7 @@ describe("Document Builder", function () {
     });
 
     it("builds a document with code, context, and test nodes", function () {
-        const source = documentReader('./fixtures/code-text-and-tests.lctx.js');
+        const source = documentReader('./fixtures/code-text-and-tests.ctx.js');
         const parsedDocument = documentParser.parse(source);
 
         const documentContent = documentBuilder.buildDocumentText(parsedDocument);

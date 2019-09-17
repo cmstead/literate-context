@@ -23,6 +23,20 @@
     {
         "type": "code",
         "subtype": null,
+        "value": "",
+        "attributes": null,
+        "children": []
+    },
+    {
+        "type": "context",
+        "subtype": null,
+        "value": "This is a one-liner",
+        "attributes": null,
+        "children": []
+    },
+    {
+        "type": "code",
+        "subtype": null,
         "value": "\nconsole.log('This is also code.')",
         "attributes": null,
         "children": []

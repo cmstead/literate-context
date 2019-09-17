@@ -28,6 +28,20 @@
         "children": []
     },
     {
+        "type": "context",
+        "subtype": null,
+        "value": "this is a one liner in this file too",
+        "attributes": null,
+        "children": []
+    },
+    {
+        "type": "code",
+        "subtype": null,
+        "value": "",
+        "attributes": null,
+        "children": []
+    },
+    {
         "type": "directive",
         "subtype": "tests",
         "value": "",
@@ -41,21 +55,21 @@
             {
                 "type": "code",
                 "subtype": null,
-                "value": "\ndescribe(\"Add behavior\", function(){",
+                "value": "\ndescribe(\"Add behavior\", function () {",
                 "attributes": null,
                 "children": []
             },
             {
                 "type": "context",
                 "subtype": null,
-                "value": "   \n   Here's some more information that goes with tests\n   ",
+                "value": "    \n    Here's some more information that goes with tests\n    ",
                 "attributes": null,
                 "children": []
             },
             {
                 "type": "code",
                 "subtype": null,
-                "value": "    it(\"sums a and b\", function(){\n        assert.equal(add(5, 6), 11);\n    });\n\n});\n",
+                "value": "    it(\"sums a and b\", function () {\n        assert.equal(add(5, 6), 11);\n    });\n\n});\n",
                 "attributes": null,
                 "children": []
             }
